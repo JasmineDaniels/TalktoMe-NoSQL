@@ -8,7 +8,7 @@ const userSchema = new Schema(
         friends: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'friends',
+                ref: 'friend',
             },
         ],
         thoughts: [

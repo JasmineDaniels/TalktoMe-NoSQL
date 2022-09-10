@@ -3,10 +3,10 @@ const { Thoughts, User } = require('../../models')
 
 //GET All Thoughts
 router.get('/', (req, res) => {
-    Thoughts.find()
+    Thoughts.find().populate('reactions')
     .then((x) => res.json(x))
     .catch((error) => res.status(500).json(error));
-})
+});
 
 //Get one thought
 
@@ -20,7 +20,7 @@ router.post('/:user_id', async (req, res) =>{
             {_id: req.params.user_id},
             //add new thought id to the array of thoughts
             {$addToSet: {thoughts: newThought._id}}, // $push
-            {returnOriginal: false}
+            {runValidators: true, returnOriginal: false}
         );
         
         if(!updateUser){
