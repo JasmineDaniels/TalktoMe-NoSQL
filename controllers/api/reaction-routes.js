@@ -14,6 +14,18 @@ router.get('/', async (req, res) => {
     } 
 });
 
+//Get a reaction
+router.get('/:_id', async (req, res) => {
+    try {
+        const reaction = await Reaction.findById({ _id: req.params._id})
+        !reaction 
+            ? res.status(404).json({ message: `Opps no reactions with this id.`})
+            : res.json(reaction)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+});
+
 router.post('/:thought_id', async (req, res) => {
     try {
         const reaction = req.body;

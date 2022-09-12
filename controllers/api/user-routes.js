@@ -13,7 +13,18 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Get a user
+//Get a user
+router.get('/:_id', (req, res) => {
+    User.findById({ _id: req.params._id })
+    .then((user) => 
+        !user 
+            ? res.status(404).json({message: `Opps no user by this id`})
+            : res.json(user)
+    )
+    .catch((error) => res.status(500).json(error))
+})
+
+//Update a user
 router.put('/:_id', async (req, res) => {
     try {
         const update = req.body;

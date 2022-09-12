@@ -9,7 +9,15 @@ router.get('/', (req, res) => {
 });
 
 //Get one thought
-
+router.get('/:_id', (req, res) => {
+    Thoughts.findById({ _id: req.params._id}).populate('reactions')
+    .then((thought) => {
+        !thought 
+            ? res.status(404).json({ message: `Opps no thought with this id`})
+            : res.json(thought)
+    })
+    .catch((error) => res.status(500).json(error))
+})
 
 //Create a new Thought 
 router.post('/:user_id', async (req, res) =>{
