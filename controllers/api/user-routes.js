@@ -5,7 +5,8 @@ const { User,  }  = require('../../models')
 // Get All users
 router.get('/', async (req, res) => {
     try {
-        const userData = await User.find({})
+        
+        const userData = await User.find({}).populate('thoughts').populate('friends')
         res.json(userData);
     } catch (error) {
         res.status(500).json(error);

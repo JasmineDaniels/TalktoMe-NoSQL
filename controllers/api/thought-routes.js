@@ -21,7 +21,7 @@ router.post('/:user_id', async (req, res) =>{
             //add new thought id to the array of thoughts
             {$addToSet: {thoughts: newThought._id}}, // $push
             {runValidators: true, returnOriginal: false}
-        );
+        ).populate('thoughts');
         
         if(!updateUser){
             res.status(404).json({ message: `No user associated with this thought`})
