@@ -21,10 +21,10 @@ const { User } = require('../../models')
 // })
 
 //create a friend
+
 router.post('/:myId', async (req, res) => {
     try {
         const friend = req.body; // the friends user_id 
-        // const createFriend = await Friend.create(friend) //friend_id
         const updateUser = await User.findOneAndUpdate(
             {_id: req.params.myId},
             {$addToSet: {friends: friend.user_id}},
@@ -39,20 +39,18 @@ router.post('/:myId', async (req, res) => {
     }
 });
 
-router.delete('/:_id', async (req, res) => { //user_id
+router.delete('/:myId', async (req, res) => { 
     try {
-        const friend = req.body; //friend_id
-        // const deleteFriend = await Friend.findByIdAndDelete({_id: req.body.friend_id})
-        // if (!deleteFriend) {res.status(404).json({ message: `Cannot find a friend with this id`})}
-        const updateUser = await User.findByIdAndUpdate( //findOneAndUpdate?
-            {_id: req.params._id}, //find user
-            {$pull: {friends: friend.friend_id}}, //update friends
+        const friend = req.body; 
+        const updateUser = await User.findByIdAndUpdate( 
+            {_id: req.params.myId}, //find user
+            {$pull: {friends: friend.user_id}}, //update friends
             {returnOriginal: false} //return
         )
 
         !updateUser  
         ? res.status(404).json({ message: 'No friend with this id'})
-        : res.json({ message: `Friend ID no. ${req.body.friend_id}, has been deleted.`})
+        : res.json({ message: `Friend ID no. ${req.body.user_id}, has been deleted.`})
     } catch (error) {
         res.status(500).json(error)
 
