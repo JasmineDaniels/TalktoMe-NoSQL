@@ -17,6 +17,6 @@ const friendSchema = new Schema(
 
 )
 
-const Friend = model('friend', friendSchema)
+// const Friend = model('friend', friendSchema)
 
-module.exports = Friend;
+// module.exports = Friend;
