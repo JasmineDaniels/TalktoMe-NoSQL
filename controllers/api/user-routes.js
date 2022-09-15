@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 
 //Get a user
 router.get('/:_id', (req, res) => {
-    User.findById({ _id: req.params._id })
+    User.findById({ _id: req.params._id }).populate('thoughts').populate('friends')
     .then((user) => 
         !user 
             ? res.status(404).json({message: `Opps no user by this id`})
@@ -46,11 +46,11 @@ router.put('/:_id', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const userData = await User.create(req.body);
-        const newUser = await userData.save()
+        //const newUser = await userData.save()
 
-        res.json(newUser);
+        res.json(userData);
     } catch (error) {
-        res.status(500).json(newUser);
+        res.status(500).json(error);
     }
 });
 

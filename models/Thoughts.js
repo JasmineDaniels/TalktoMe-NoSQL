@@ -1,5 +1,7 @@
-const { model, Schema } = require("mongoose");
+const { model, Schema, Types } = require("mongoose");
 const Reaction = require('./Reaction')
+//const moment = require('moment')
+
 
 const thoughtSchema = new Schema(
     {
@@ -9,21 +11,11 @@ const thoughtSchema = new Schema(
             maxLength: 400,
             required: true,
         },
-        meta: {
-            likes: Number,
-            bookmarks: Number,
+        createdAt: {
+            type: String,
+            default: Date,
         },
-        reactions: [Reaction],
-        // reactions: [
-        //     {
-        //         type: Schema.Types.ObjectId,
-        //         ref: 'reaction',
-        //     },
-        // ],
-
-    },
-    {
-        timestamps: true
+        reactions: [Reaction],   
     },
     {
         toJSON: {
@@ -33,14 +25,10 @@ const thoughtSchema = new Schema(
     },  
 )
 
-thoughtSchema
-    .virtual('reactionsCount')
+thoughtSchema.virtual('reactionsCount')
     .get(function () {
         return this.reactions.length;
     })
-    // .set(function (v){
-    //     this.set({v})
-    // })
 
 
 const Thoughts = model('thoughts', thoughtSchema)

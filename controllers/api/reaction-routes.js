@@ -28,13 +28,11 @@ const { Thoughts } = require('../../models');
 
 router.post('/:thought_id', async (req, res) => {
     try {
-        const reaction = req.body;
-        // const newReaction = await Reaction.create(reaction)
         const updateThought = await Thoughts.findOneAndUpdate(
             {_id: req.params.thought_id},
-            {$addToSet: {reactions: reaction}}, //commentor id + comment
+            {$addToSet: {reactions: req.body}}, //commentor id + comment
             {runValidators: true, returnOriginal: false}
-        ).populate('reactions').populate('user_id')
+        )
 
         !updateThought 
             ? res.status(404).json({ message: `No reaction no. ${req.body.reactionId} associated with this thought.`}) 
