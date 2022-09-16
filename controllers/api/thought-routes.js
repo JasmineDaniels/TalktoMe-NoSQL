@@ -20,16 +20,16 @@ router.get('/:_id', (req, res) => {
 })
 
 //Create a new Thought 
-router.post('/:user_id', async (req, res) =>{
+router.post('/', async (req, res) =>{
     try {
-        const thought = req.body;
-        const newThought = await Thoughts.create(thought)
+        
+        const newThought = await Thoughts.create(req.body)
         const updateUser = await User.findOneAndUpdate(
-            {_id: req.params.user_id},
+            {_id: req.body.user_id},
             //add new thought id to the array of thoughts
-            {$addToSet: {thoughts: newThought._id}}, // $push
+            {$addToSet: {thoughts: newThought}}, // $push
             {runValidators: true, returnOriginal: false}
-        ).populate('thoughts');
+        ).populate('thoughts').populate('thoughts.username')
         
         if(!updateUser){
             res.status(404).json({ message: `No user associated with this thought`})

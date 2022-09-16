@@ -1,6 +1,5 @@
 const { model, Schema } = require("mongoose");
 
-
 function validateEmail(email){
     const re = /^([a-z0-9A-Z\d\.-_]+)@([a-z\d-]+)\.([a-z]{2,6})?$/
     return re.test(email)
@@ -21,7 +20,7 @@ const userSchema = new Schema(
             trim: true,
             unique: true,
             validate: [validateEmail, 'Please fill in a valid email address'],
-            //match: [/ @ /, 'Please fill in a valid email address']
+            //match: [/^([a-z0-9A-Z\d\.-_]+)@([a-z\d-]+)\.([a-z]{2,6})?$/, 'Please fill in a valid email address']
             
         },
         friends: [

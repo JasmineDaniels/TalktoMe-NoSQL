@@ -1,11 +1,11 @@
 const router = require('express').Router();
-const { User,  }  = require('../../models')
+const { User, Thoughts,  }  = require('../../models')
 //api/users
 
 // Get All users
 router.get('/', async (req, res) => {
     try {
-        const userData = await User.find({})
+        const userData = await User.find({}).populate("friends")
         res.json(userData);
     } catch (error) {
         res.status(500).json(error);
@@ -60,12 +60,52 @@ router.delete('/:_id', async (req, res) => {
         const userData = await User.findOneAndDelete({
             _id: req.params._id
         })
+
+        //if user is deleted, delete users thoughts
+        await Thoughts.deleteMany({user_id: req.params._id})
     
         !userData ? res.status(404).json({
             message: `No users with this id..`
         }) : res.json({ message: `User ${req.params._id} has been deleted.`})
     } catch (error) {
         res.status(500).json(error)
+    }
+})
+
+//Create a friend
+router.post('/:myId/friends/:user_id', async (req, res) => {
+    try {
+        // const friend = req.body; // the friends user_id 
+        const updateUser = await User.findOneAndUpdate(
+            {_id: req.params.myId},
+            {$addToSet: {friends: req.params.user_id}},
+            {runValidators: true, returnOriginal: false}
+        ).populate('friends');
+
+        if(!updateUser){
+            res.status(404).json({ message: `No user associated with this thought`})
+        } res.json(updateUser)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+});
+
+//Delete a friend
+router.delete('/:myId/friends/:user_id', async (req, res) => { 
+    try {
+        //const friend = req.body; 
+        const updateUser = await User.findByIdAndUpdate( 
+            {_id: req.params.myId}, //find user
+            {$pull: {friends: req.params.user_id}}, //update friends
+            {returnOriginal: false} //return
+        )
+
+        !updateUser  
+        ? res.status(404).json({ message: 'No friend with this id'})
+        : res.json({ message: `Friend ID no. ${req.params.user_id}, has been deleted.`})
+    } catch (error) {
+        res.status(500).json(error)
+
     }
 })
 

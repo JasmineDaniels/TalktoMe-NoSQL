@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Thoughts } = require('../../models');
+const { Thoughts, User } = require('../../models');
 
 //  api/reactions endpoint
 

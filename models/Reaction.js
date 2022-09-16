@@ -2,7 +2,7 @@ const { Schema, Types } = require("mongoose");
 
 const reactionSchema = new Schema(
     {
-        reaction_id: {
+        reaction_id: { //auto generated
             type: Schema.Types.ObjectId,
             default: () => new Types.ObjectId(),
         },
@@ -12,18 +12,17 @@ const reactionSchema = new Schema(
             maxLength: 400,
             required: true,
         },
+        username: {
+            type: String,
+            required: true
+        },
         createdAt: {
             type: String,
             // default: Date,
             get: (date) => {
-                // let dateStr = new Date(date).toDateString()
+                
                 let newdate = new Date().toDateString()
                 return newdate
-                // let timestamp = date.toDateDtring()
-                // let timestamp = date.toLocaleDateString('en-US', {weekday: 'short', month: 'short', year: 'numeric'})
-                // return timestamp
-                // let timestamp = new Date(date)
-                // return `${timestamp.getMonth()}/${timestamp.getDay}/${timestamp.getFullYear()}`
             }
         },
         meta: {
@@ -40,9 +39,5 @@ const reactionSchema = new Schema(
     },  
 )
 
-
-
-
 // const Reaction = model('reaction', reactionSchema)
-
 module.exports = reactionSchema;
