@@ -25,6 +25,7 @@ router.post('/', async (req, res) =>{
         
         const newThought = await Thoughts.create(req.body)
         const updateUser = await User.findOneAndUpdate(
+            //{username: req.body.username},
             {_id: req.body.user_id},
             //add new thought id to the array of thoughts
             {$addToSet: {thoughts: newThought}}, // $push
@@ -33,6 +34,7 @@ router.post('/', async (req, res) =>{
         
         if(!updateUser){
             res.status(404).json({ message: `No user associated with this id`})
+            return
         }   res.json(updateUser)
     } catch (error) {
         res.status(500).json(error)

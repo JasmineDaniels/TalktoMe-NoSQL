@@ -25,9 +25,9 @@ Talk to me API features a MongoDB database and objects are mapped using the Mong
 
 ### Demo Links:
 
-## [TTM API Demo - CREATE/READ](https://watch.screencastify.com/v/8iMbmmKi26l0y3oF0ogN)
+## [TTM API Demo - CREATE/READ](https://watch.screencastify.com/v/2SMGYi96gyppJVjRiYYv)
 
-## [TTM API Demo - UPDATE/DELETE](https://watch.screencastify.com/v/tnmX53yFDaGQBVg01O3g)
+## [TTM API Demo - UPDATE/DELETE](https://watch.screencastify.com/v/np4YP1d3rjsGE4f77NPX)
 
 ## License
 
