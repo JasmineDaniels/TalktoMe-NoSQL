@@ -1,11 +1,5 @@
 const { model, Schema, Types } = require("mongoose");
 const Reaction = require('./Reaction')
-//const moment = require('moment')
-
-function getUsername(_id){
-    return this._id.username;
-}
-
 
 const thoughtSchema = new Schema(
     {
@@ -47,6 +41,11 @@ thoughtSchema.virtual('reactionsCount')
         return this.reactions.length;
     })
 
+// thoughtSchema.virtual('popUsername', {
+//     ref: 'user',
+//     localField: 'username',
+//     foreignField: '_id'
+// });
 
 const Thoughts = model('thoughts', thoughtSchema)
 

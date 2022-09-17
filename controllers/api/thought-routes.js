@@ -29,10 +29,10 @@ router.post('/', async (req, res) =>{
             //add new thought id to the array of thoughts
             {$addToSet: {thoughts: newThought}}, // $push
             {runValidators: true, returnOriginal: false}
-        ).populate('thoughts').populate('thoughts.username')
+        ).populate('thoughts')
         
         if(!updateUser){
-            res.status(404).json({ message: `No user associated with this thought`})
+            res.status(404).json({ message: `No user associated with this id`})
         }   res.json(updateUser)
     } catch (error) {
         res.status(500).json(error)
@@ -70,6 +70,58 @@ router.delete('/:_id', async (req, res) => {
     !updateUser  
     ? res.status(500).json({ message: 'Thought was deleted, but was not assigned to a user..'})
     : res.json({ message: `Thought ${req.params._id} has been deleted.`})
+})
+
+//Post a reaction
+router.post('/:thought_id/reactions', async (req, res) => {
+    try {
+        const updateThought = await Thoughts.findOneAndUpdate(
+            {_id: req.params.thought_id},
+            {$addToSet: {reactions: req.body}}, //commentor id + comment
+            {runValidators: true, returnOriginal: false}
+        )
+
+        !updateThought 
+            ? res.status(404).json({ message: `No reaction no. ${req.body.reactionId} associated with this thought.`}) 
+            : res.json(updateThought)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
+
+// router.put('/:thought_id', async (req, res) => {
+//     try {
+//         const update = req.body;
+//         const reaction = await Thoughts.findByIdAndUpdate(
+//             {_id: req.params._id}, //find thought
+//             {$set: {reactions: {}}},
+//             {runValidators: true, returnOriginal: false} // {new: true}
+//         )
+//         if(!reaction){
+//             res.status(404).json("This reaction doesn't exist.")
+//         }   
+//         res.json({ message: `Reaction ${req.params._id} has been updated.`, reaction})
+//     } catch (error) {
+//         res.status(500).json(error)
+//     }
+// });
+
+
+router.delete('/:thought_id/reactions', async (req, res) => {
+    try {
+        const updateThoughts = await Thoughts.findOneAndUpdate(
+            {_id: req.params.thought_id},
+            // pull the id from the array of reactions
+            {$pull: {reactions: {_id: req.body.reaction_id}}},
+            {returnOriginal: false}
+        )
+
+        !updateThoughts  
+        ? res.status(404).json({message: `No reaction with this id`})
+        : res.json({ message: `Reaction ${req.body.reaction_id} has been deleted.`})
+    } catch (error) {
+        res.status(500).json(error)
+    }
 })
 
 module.exports = router;
