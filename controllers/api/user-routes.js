@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 
 //Get a user
 router.get('/:_id', (req, res) => {
-    User.findById({ _id: req.params._id }).populate('thoughts').populate('friends')
+    User.findById({ _id: req.params._id }).populate('thoughts').populate('friends').select('-__v')
     .then((user) => 
         !user 
             ? res.status(404).json({message: `Opps no user by this id`})
