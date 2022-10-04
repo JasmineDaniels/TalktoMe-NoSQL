@@ -20,14 +20,12 @@ Talk to me API features a MongoDB database and objects are mapped using the Mong
 ### 1. Git Clone API
 ### 2. ``` npm start ```
 
-<!-- ### Demo Image: 
-![TechHub Home](./public/images/TechHub-Home.png) -->
+### Demo Link:
 
-### Demo Links:
+## [TTM API Demo](https://youtu.be/ml_dtzRTB3I)
 
-## [TTM API Demo - CREATE/READ](https://watch.screencastify.com/v/2SMGYi96gyppJVjRiYYv)
-
-## [TTM API Demo - UPDATE/DELETE](https://watch.screencastify.com/v/qk2KutbRBZ1bjRpCXqXu)
+### Demo Image 
+![TTM Image](./images/TalkToMeAPI.png)
 
 ## License
 
